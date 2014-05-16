@@ -46,8 +46,16 @@ if [ ! -d "$BLURAY_OUTPUT_DIR/$BLURAY_TITLE" ]; then
 
 	# START MakeMKV AND BACKUP THE BLURAY
 	# makemkvcon backup disc:0 $BLURAY_OUTPUT_DIR/$BLURAY_TITLE --decrypt >> $BLURAY_LOG_DIR/$BLURAY_TITLE.log
-	# makemkvcon --minlength=3600 -r --decrypt --directio=true mkv disc:0 all $BLURAY_OUTPUT_DIR/$BLURAY_TITLE | tee $BLURAY_LOG_DIR/$BLURAY_TITLE.log >> $BLURAY_LOG_DIR/bluray-encode.log
-	makemkvcon backup --decrypt --directio=true --robot --cache=1024 --noscan -r --progress=-same disc:0 $BLURAY_OUTPUT_DIR/$BLURAY_TITLE >> $BLURAY_LOG_DIR/bluray-rip.log
+	#makemkvcon --minlength=3600 -r --decrypt --directio=true mkv disc:0 all $BLURAY_OUTPUT_DIR/$BLURAY_TITLE | tee $BLURAY_LOG_DIR/$BLURAY_TITLE.log >> $BLURAY_LOG_DIR/bluray-rip.log
+	#makemkvcon backup --decrypt --directio=true --robot --cache=1024 --noscan -r --progress=-same disc:0 $BLURAY_OUTPUT_DIR/$BLURAY_TITLE >> $BLURAY_LOG_DIR/bluray-rip.log
+
+mkdir $BLURAY_OUTPUT_DIR/$BLURAY_TITLE
+chmod 0777 $BLURAY_OUTPUT_DIR/$BLURAY_TITLE
+
+makemkvcon --minlength=3600 --noscan -r mkv disc:0 all $BLURAY_OUTPUT_DIR/$BLURAY_TITLE | tee $BLURAY_LOG_DIR/$BLURAY_TITLE.log >> $BLURAY_LOG_DIR/bluray-rip.log
+
+echo " " >> $BLURAY_OUTPUT_DIR/$BLURAY_TITLE/rip.completed
+chmod -R 0777 $BLURAY_OUTPUT_DIR/$BLURAY_TITLE
 
 	# XBMC-NOTIFY : COMPLETED
 	if [ "$GLOBAL_ENABLE_XBMC" = 1 ]; then
