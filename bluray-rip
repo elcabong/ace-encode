@@ -57,6 +57,10 @@ makemkvcon --minlength=3600 --noscan -r mkv disc:0 all $BLURAY_OUTPUT_DIR/$BLURA
 echo " " >> $BLURAY_OUTPUT_DIR/$BLURAY_TITLE/rip.completed
 chmod -R 0777 $BLURAY_OUTPUT_DIR/$BLURAY_TITLE
 
+if [ "$ENABLE_WEBSETTINGS" = 1 ]; then
+	curl $WEBROOT?automated=1
+fi
+
 	# XBMC-NOTIFY : COMPLETED
 	if [ "$GLOBAL_ENABLE_XBMC" = 1 ]; then
         	xbmc-send --host=$GLOBAL_XBMC_HOST -a "Notification($BLURAY_RIPPER_NAME, Completed backup $BLURAY_TITLE,20000)";

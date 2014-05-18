@@ -54,6 +54,10 @@ makemkvcon --minlength=3600 --noscan -r mkv disc:0 all $DVD_OUTPUT_DIR/$DVD_TITL
 echo " " >> $DVD_OUTPUT_DIR/$DVD_TITLE/rip.completed
 chmod -R 0777 $DVD_OUTPUT_DIR/$DVD_TITLE
 
+if [ "$ENABLE_WEBSETTINGS" = 1 ]; then
+	curl $WEBROOT?automated=1
+fi
+
 	#makemkvcon --minlength=3600 -r --decrypt --directio=true mkv disc:0 all $DVD_OUTPUT_DIR/$DVD_TITLE | tee $DVD_LOG_DIR/$DVD_TITLE.log >> $DVD_LOG_DIR/dvd-rip.log
 
 
