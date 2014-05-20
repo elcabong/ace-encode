@@ -24,7 +24,7 @@ cd $DVD_OUTPUT_DIR
 DVD_DIR_LIST=( $(find . -maxdepth 1 -type d -printf '%P\n') )
 
 for DVD_TITLE in "${DVD_DIR_LIST[@]}"; do
-	if [ "$DVD_TITLE" != 'logs' ] && [ ! -f $DVD_OUTPUT_DIR/$DVD_TITLE.$DVD_EXTENSION ]; then
+	if [ "$DVD_TITLE" != 'logs' ] && [ ! -f "$DVD_OUTPUT_DIR/$DVD_TITLE/$DVD_TITLE.$DVD_EXTENSION.encoded" ] && [ ! -f "$DVD_OUTPUT_DIR/$DVD_TITLE/no.encoding" ]; then
         	# LOG : COMMENCING ENCODE OF THIS DVD
         	echo "*********************************  COMMENCING:  $DVD_TITLE  *********************************" >> $DVD_LOG_DIR/dvd-encode.log
 
@@ -52,17 +52,17 @@ for DVD_TITLE in "${DVD_DIR_LIST[@]}"; do
        		# LOG : COMMENCING
         	echo "$(timestamp) - COMMENCING:  Commencing encode of $DVD_TITLE" >> $DVD_LOG_DIR/dvd-encode.log
 
-echo " " >> $DVD_OUTPUT_DIR/$DVD_TITLE/encoding		
+			echo " " >> "$DVD_OUTPUT_DIR/$DVD_TITLE/encoding"	
 			
 		# COMMENCE THE ENCODING
-	    	HandBrakeCLI -i $DVD_OUTPUT_DIR/$DVD_TITLE -o $DVD_OUTPUT_DIR/$DVD_TITLE/$DVD_TITLE.$DVD_EXTENSION.encoded $DVD_HB_VIDEO $DVD_HB_AUDIO >> $DVD_LOG_DIR/dvd-encode.log
+	    	HandBrakeCLI -i "$DVD_OUTPUT_DIR/$DVD_TITLE" -o "$DVD_OUTPUT_DIR/$DVD_TITLE/$DVD_TITLE.$DVD_EXTENSION.encoded" $DVD_HB_VIDEO $DVD_HB_AUDIO >> $DVD_LOG_DIR/dvd-encode.log
 
-rm $DVD_OUTPUT_DIR/$DVD_TITLE/encoding;
-echo " " >> $DVD_OUTPUT_DIR/$DVD_TITLE/no.encoding
+			rm "$DVD_OUTPUT_DIR/$DVD_TITLE/encoding";
+			echo " " >> "$DVD_OUTPUT_DIR/$DVD_TITLE/no.encoding"
 
-if [ "$ENABLE_WEBSETTINGS" = 1 ]; then
-	curl $WEBROOT?automated=1
-fi
+			if [ "$ENABLE_WEBSETTINGS" = 1 ]; then
+				curl $WEBROOT?automated=1;
+			fi
 			
 		# XBMC-NOTIFY : COMPLETED ENCODE
 		if [ "$GLOBAL_ENABLE_XBMC" = 1 ]; then

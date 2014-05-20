@@ -52,16 +52,16 @@ for BLURAY_TITLE in "${BLURAY_DIR_LIST[@]}"; do
                 # LOG : COMMENCING
                 echo "$(timestamp) - COMMENCING:  Commencing encode of $BLURAY_TITLE" >> $BLURAY_LOG_DIR/bluray-encode.log
 
-echo " " >> $BLURAY_OUTPUT_DIR/$BLURAY_TITLE/encoding					
+		echo " " >> "$BLURAY_OUTPUT_DIR/$BLURAY_TITLE/encoding"					
 				
 		# COMMENCE THE ENCODING
-	        HandBrakeCLI -i $BLURAY_OUTPUT_DIR/$BLURAY_TITLE -o $BLURAY_OUTPUT_DIR/$BLURAY_TITLE/$BLURAY_TITLE.$BLURAY_EXTENSION.encoded $BLURAY_HB_VIDEO $BLURAY_HB_AUDIO >> $BLURAY_LOG_DIR/bluray-encode.log
+	        HandBrakeCLI -i "$BLURAY_OUTPUT_DIR/$BLURAY_TITLE" -o "$BLURAY_OUTPUT_DIR/$BLURAY_TITLE/$BLURAY_TITLE.$BLURAY_EXTENSION.encoded" $BLURAY_HB_VIDEO $BLURAY_HB_AUDIO >> $BLURAY_LOG_DIR/bluray-encode.log
 
-rm $BLURAY_OUTPUT_DIR/$BLURAY_TITLE/encoding;
-echo " " >> $BLURAY_OUTPUT_DIR/$BLURAY_TITLE/no.encoding	
-if [ "$ENABLE_WEBSETTINGS" = 1 ]; then
-	curl $WEBROOT?automated=1
-fi
+		rm "$BLURAY_OUTPUT_DIR/$BLURAY_TITLE/encoding";
+		echo " " >> "$BLURAY_OUTPUT_DIR/$BLURAY_TITLE/no.encoding"	
+		if [ "$ENABLE_WEBSETTINGS" = 1 ]; then
+			curl $WEBROOT?automated=1;
+		fi
 			
 		# XBMC-NOTIFY : COMPLETED ENCODE
 		if [ "$GLOBAL_ENABLE_XBMC" = 1 ]; then
